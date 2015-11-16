@@ -1,0 +1,27 @@
+body, input {
+  font-family: San Francisco, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+}
+
+body {
+  padding: 1em;
+}
+
+input[type=text] {
+  padding: 0.5em;
+}
+
+td {
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+}
+
+td.diagonal {
+  background-color: #f99;
+}
+
+#tableParent {
+  margin-top: 1em;
+}
+

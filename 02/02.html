@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <input type="text" id="size" placeholder="Size" autofocus/>
+    <div id="tableParent"/>
+
+    <script type="text/javascript">
+      /*
+         Makes a size-by-size table and returns the HTML element
+      */
+      function makeTable(size) {
+        var table, tbody, tr, td;
+        var i, j;
+
+        table = document.createElement("table");
+        tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+
+        for (i = 0; i < size; ++i) {
+          tr = document.createElement("tr");
+          tbody.appendChild(tr);
+
+          for (j = 0; j < size; ++j) {
+            td = document.createElement("td");
+            tr.appendChild(td);
+
+            if ((i == j) || (i == size - j - 1)) {
+              $(td).addClass("diagonal");
+            }
+          }
+        }
+
+        return table;
+      }
+
+
+      /*
+         Event handlers
+      */
+      $("#size").on("input", function(event) {
+        var $tableParent = $("#tableParent");
+        var size;
+
+        $tableParent.empty()
+        size = parseInt($("#size").val());
+
+        if ((size > 0) && (size < 21)) {
+          $tableParent.append(makeTable(size));
+        }
+      });
+    </script>
+  </body>
+</html>
+
