@@ -1,0 +1,22 @@
+body, input {
+  font-family: San Francisco, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+}
+
+body {
+  padding: 1em;
+}
+
+input[type=text] {
+  padding: 0.5em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
