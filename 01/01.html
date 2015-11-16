@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <input id="date" type="text" placeholder="Type a date" autofocus/>
+    <div id="dayofyear"></div>
+    <div id="examples">
+      <a href="#">Jul 4, 1776</a><br/>
+      <a href="#">November 19, 1863</a><br/>
+      <a href="#">1929-01-15</a><br/>
+      <a href="#">7/20/1969</a>
+    </div>
+
+    <script type="text/javascript">
+
+      /*
+         Given the input, calculates the day of year and updates the output.
+      */
+      function update() {
+        var dateString = $("#date").val();
+        var date = parseDate(dateString);
+
+        var dayOfYearString = (date !== null) ?
+          "Day " + dayOfYear(date) :
+          "&nbsp;";
+
+        $("#dayofyear").html(dayOfYearString);
+      }
+
+
+      /*
+         Returns the day of year for a date. E.g., January 30, 2015 is the
+         30th day of the year.
+      */
+      function dayOfYear(date) {
+        var startOfYear = dateFromComponents(date.getFullYear(), 0, 1);
+        var msecs = date.getTime() - startOfYear.getTime();
+        return 1 + Math.floor(msecs / (1000 * 60 * 60 * 24));
+      }
+
+
+      /*
+         Parses dates in the following formats:
+           01/30/2015
+           2015-01-30
+           January 30, 2015
+           Jan 30, 2015
+
+        Accepts one- and two-digit days and months; requires four-digit years.
+        Returns null if the date is in an invalid format.
+      */
+      function parseDate(string) {
+        var match = null;
+
+        // 1/30/2015
+        if (null !== (match = string.match(/^(\d+)\/(\d+)\/(\d{4})$/))) {
+          return dateFromComponents(parseInt(match[3]), parseInt(match[1]) - 1,
+            parseInt(match[2]));
+        }
+
+        // 2015-01-30
+        if (null !== (match = string.match(/^(\d{4})-(\d+)-(\d+)$/))) {
+          return dateFromComponents(parseInt(match[1]), parseInt(match[2]) - 1,
+            parseInt(match[3]));
+        }
+
+        // January 30, 2015 or Jan 30, 2015
+        if (null !== (match = string.match(/^(\w+) (\d+), (\d{4})$/))) {
+          month = parseMonth(match[1]);
+
+          if (month !== null) {
+            return dateFromComponents(parseInt(match[3]), month,
+              parseInt(match[2]))
+          }
+        }
+
+        return null;
+      }
+
+
+      /*
+         Returns a date from its components, or null if the components are
+         invalid. E.g., February 29 on a non leap year is invalid.
+      */
+      function dateFromComponents(year, month, day) {
+        // Use setters because the constructor requires a date after 1900
+        var date = new Date();
+        date.setFullYear(year);
+        date.setMonth(month);
+        date.setDate(day);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+
+        var valid = (year == date.getFullYear()) &&
+          (month == date.getMonth()) &&
+          (day == date.getDate());
+
+        return valid ? date : null;
+      }
+
+
+      /*
+         Parses a month name into a zero-based ordinal. Returns null if the
+         string is not a valid month name. Case-insensitive.
+      */
+      function parseMonth(string) {
+        var longNames = [
+          "january", "february", "march", "april", "may", "june", "july",
+          "august", "september", "october", "november", "december"];
+
+        var shortNames = [
+          "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
+          "oct", "nov", "dec"];
+
+        string = string.toLowerCase();
+
+        var month = longNames.indexOf(string);
+        if (month < 0) month = shortNames.indexOf(string);
+
+        return month < 0 ? null : month;
+      }
+
+
+      /*
+         Show the day when an example is clicked
+      */
+      $("#examples a").click(function(event) {
+        var text = $(event.currentTarget).text();
+        $("#date").val(text);
+        update();
+      });
+
+
+      /*
+         Event handler bindings
+      */
+      $("#date").on("input", update);
+      $(document).ready(update);
+    </script>
+  </body>
+</html>
+
