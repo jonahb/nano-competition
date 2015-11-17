@@ -21,6 +21,23 @@
     <script type="text/javascript">
 
       /*
+         Event handlers
+      */
+      $("#date").on("input", update);
+      $(document).ready(update);
+
+
+      /*
+         Show the day when an example is clicked
+      */
+      $("#examples a").click(function(event) {
+        var text = $(event.currentTarget).text();
+        $("#date").val(text);
+        update();
+      });
+
+
+      /*
          Given the input, calculates the day of year and updates the output.
       */
       function update() {
@@ -32,17 +49,6 @@
           "&nbsp;";
 
         $("#dayofyear").html(dayOfYearString);
-      }
-
-
-      /*
-         Returns the day of year for a date. E.g., January 30, 2015 is the
-         30th day of the year.
-      */
-      function dayOfYear(date) {
-        var startOfYear = dateFromComponents(date.getFullYear(), 0, 1);
-        var msecs = date.getTime() - startOfYear.getTime();
-        return 1 + Math.floor(msecs / (1000 * 60 * 60 * 24));
       }
 
 
@@ -86,29 +92,6 @@
 
 
       /*
-         Returns a date from its components, or null if the components are
-         invalid. E.g., February 29 on a non leap year is invalid.
-      */
-      function dateFromComponents(year, month, day) {
-        // Use setters because the constructor requires a date after 1900
-        var date = new Date();
-        date.setFullYear(year);
-        date.setMonth(month);
-        date.setDate(day);
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-
-        var valid = (year == date.getFullYear()) &&
-          (month == date.getMonth()) &&
-          (day == date.getDate());
-
-        return valid ? date : null;
-      }
-
-
-      /*
          Parses a month name into a zero-based ordinal. Returns null if the
          string is not a valid month name. Case-insensitive.
       */
@@ -131,20 +114,37 @@
 
 
       /*
-         Show the day when an example is clicked
+         Returns the day of year for a date. E.g., January 30, 2015 is the
+         30th day of the year.
       */
-      $("#examples a").click(function(event) {
-        var text = $(event.currentTarget).text();
-        $("#date").val(text);
-        update();
-      });
+      function dayOfYear(date) {
+        var startOfYear = dateFromComponents(date.getFullYear(), 0, 1);
+        var msecs = date.getTime() - startOfYear.getTime();
+        return 1 + Math.floor(msecs / (1000 * 60 * 60 * 24));
+      }
 
 
       /*
-         Event handler bindings
+         Returns a date from its components, or null if the components are
+         invalid. E.g., February 29 on a non leap year is invalid.
       */
-      $("#date").on("input", update);
-      $(document).ready(update);
+      function dateFromComponents(year, month, day) {
+        // Use setters because the constructor requires a date after 1900
+        var date = new Date();
+        date.setFullYear(year);
+        date.setMonth(month);
+        date.setDate(day);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+
+        var valid = (year == date.getFullYear()) &&
+          (month == date.getMonth()) &&
+          (day == date.getDate());
+
+        return valid ? date : null;
+      }
     </script>
   </body>
 </html>

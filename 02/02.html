@@ -15,7 +15,58 @@
     <div id="tableParent"/>
 
     <script type="text/javascript">
+      /*
+         Global variables
+      */
       var size = null;
+
+
+      /*
+         Event handlers
+      */
+      $(document).ready(function(event) {
+        updateTable();
+      });
+
+      $("#size").on("input", function(event) {
+        size = parseInt($("#size").val()) || null;
+        updateTable();
+      });
+
+      $("#increaseSize").click(function(event) {
+        size++;
+        updateTable();
+        updateSize();
+      });
+
+      $("#decreaseSize").click(function(event) {
+        size--;
+        updateTable();
+        updateSize();
+      });
+
+
+      /*
+         Updates the table to reflect the current value of size. If size is out
+         of bounds (< 1 or > 20), displays nothing.
+      */
+      function updateTable() {
+        var $tableParent = $("#tableParent");
+        $tableParent.empty();
+
+        if ((size !== null) && (size > 0)) {
+          $tableParent.append(makeTable(size));
+        }
+      }
+
+
+      /*
+         Updates the size box with the current value of size
+      */
+      function updateSize() {
+        $("#size").val(size === null ? "" : size);
+      }
+
 
       /*
          Makes a size-by-size table and returns the HTML element
@@ -44,53 +95,6 @@
 
         return table;
       }
-
-
-      /*
-         Updates the table to reflect the current value of size. If size is out
-         of bounds (< 1 or > 20), displays nothing.
-      */
-      function updateTable() {
-        var $tableParent = $("#tableParent");
-        $tableParent.empty();
-
-        if ((size !== null) && (size > 0)) {
-          $tableParent.append(makeTable(size));
-        }
-      }
-
-
-      /*
-         Updates the size box with the current value of size
-      */
-      function updateSize() {
-        $("#size").val(size === null ? "" : size);
-      }
-
-
-      /*
-         Event handlers
-      */
-      $(document).ready(function(event) {
-        updateTable();
-      });
-
-      $("#size").on("input", function(event) {
-        size = parseInt($("#size").val()) || null;
-        updateTable();
-      });
-
-      $("#increaseSize").click(function(event) {
-        size++;
-        updateTable();
-        updateSize();
-      });
-
-      $("#decreaseSize").click(function(event) {
-        size--;
-        updateTable();
-        updateSize();
-      });
     </script>
   </body>
 </html>
