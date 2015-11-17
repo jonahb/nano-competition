@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="../common.css"/>
+    <link rel="stylesheet" href="03.css"/>
+  </head>
+  <body>
+    <div id="frame">
+      <input id="x" class="operand" type="text" placeholder="binary" autofocus/><br/>
+      <a href="#" id="operator"></a>
+      <input id="y" class="operand" placeholder="binary" type="text"/><br/>
+      <div id="result" type="text"></div>
+    </div>
+
+    <script type="text/javascript">
+      /*
+         Global variables
+      */
+      var operators = ["+", "−", "×", "÷"];
+      var currentOperator = 0;
+
+
+      /*
+         Event handlers
+      */
+      $("#x").on("input", updateResult);
+      $("#y").on("input", updateResult);
+
+      $(document).ready(function(event) {
+        updateResult();
+        updateOperator();
+      });
+
+
+      /*
+         When the user clicks the operator, select the next one in the list and
+         update the result.
+      */
+      $("#operator").click(function(event) {
+        currentOperator = (currentOperator + 1) % operators.length;
+        updateResult();
+        updateOperator();
+      });
+
+
+      /*
+         Parses the input and updates the result field. If either input is
+         invalid, blanks the result.
+      */
+      function updateResult() {
+        var x = parseBinaryInt($("#x").val());
+        var y = parseBinaryInt($("#y").val());
+        var operator;
+
+        if ((x === null) || (y === null)) {
+          $("#result").text("");
+        } else {
+          operator = operators[currentOperator];
+          $("#result").text(apply(operator, x, y).toString(2));
+        }
+      }
+
+
+      /*
+         Updates the operator text
+      */
+      function updateOperator() {
+        $("#operator").text(operators[currentOperator]);
+      }
+
+
+      /*
+         Parses a binary number. We could use parseInt with radix 2, but
+         we don't like the behavior of parseInt when it encouners an invalid
+         character. (It returns the number parsed up to that point.) Our
+         implementation returns null if the input is invalid.
+      */
+      function parseBinaryInt(string) {
+        var i;
+        var char;
+        var result = 0;
+
+        if (string.length === 0) {
+          return null;
+        }
+
+        for (i = 0; i < string.length; ++i) {
+          char = string.charAt(i);
+
+          if (char === "0") {
+            result = result * 2;
+          } else if (char === "1") {
+            result = result * 2 + 1;
+          } else {
+            return null;
+          }
+        }
+
+        return result;
+      }
+
+
+      /*
+         Applies an operator to two operands.
+      */
+      function apply(operator, x, y) {
+        switch (operator) {
+          case "+":
+            return x + y;
+          case "−":
+            return x - y;
+          case "×":
+            return x * y;
+          case "÷":
+            return x / y;
+          default:
+            return null;
+        }
+      }
+    </script>
+  </body>
+</html>
+

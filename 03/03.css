@@ -1,0 +1,38 @@
+body, input {
+  font-family: Source Code Pro, Consolas, Courier New, monospace;
+}
+
+#frame {
+  width: 320px;
+  text-align: right;
+}
+
+input[type=text] {
+  box-sizing: border-box;
+  border: 0;
+  margin-bottom: 0.25em;
+  text-align: right;
+}
+
+input.operand {
+  width: 240px;
+  background-color: #eee;
+}
+
+#result {
+  padding: 0.5em;
+  border-top: 1px solid black;
+  font-weight: bold;
+  color: black;
+}
+
+#operator {
+  font-size: 28px;
+  margin-right: 0.5em;
+}
+
+#operator:hover {
+  text-decoration: none;
+  color: green;
+}
+
