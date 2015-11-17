@@ -1,15 +1,9 @@
-body {
-  text-align: center;
-  padding-top: 3em;
-}
-
 #dayofyear {
-  margin-top: 0.75em;
+  margin-left: 0.25em;
 }
 
 #examples {
-  margin-top: 3em;
   font-size: 12px;
   color: #999;
-  line-height: 1.25em;
 }
+
