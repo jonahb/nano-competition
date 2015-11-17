@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>5. Is My Friend Cheating?</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="../common.css"/>
+    <link rel="stylesheet" href="05.css"/>
+  </head>
+  <body>
+    <input type="text" id="n" placeholder="Positive integer" autofocus/>
+    <a href="#" id="solve">Solve</a><br/>
+    <div id="output"></div>
+
+    <script type="text/javascript">
+      /*
+         Event handlers
+      */
+      $("#solve").click(update);
+
+      // Allow pressing enter in the text box (13 is the key code for enter)
+      $("#n").keyup(function(event) {
+        if (event.which === 13) {
+          update();
+        }
+      });
+
+
+      /*
+         Reads n, finds the pairs, and updates the output and the illustrations.
+      */
+      function update() {
+        var pairs;
+        var pairStrings;
+
+        var n = parseInt($("#n").val());
+
+        if (isNaN(n) || (n < 1)) {
+          $("#output").text("Enter a positive integer");
+          return;
+        }
+
+        pairs = findPairs(n);
+
+        if (pairs.length === 0) {
+          $("#output").text("No solutions for " + n);
+        } else {
+          pairStrings = pairs.map(function(pair) {
+            return "(" + pair[0] + ", " + pair[1] + ")";
+          });
+
+          $("#output").text(pairStrings.join(", "));
+        }
+      }
+
+
+      /*
+         Finds all pairs of numbers (x, y) in the range [1, n] such that x * y
+         equals 1 + 2 + ... + n - (x + y). That is, the product of x and y is
+         the same as the sum as the numbers from 1 to n excluding x and y.
+         Returns a (possibly empty) array of two-element arrays.
+      */
+      function findPairs(n) {
+        var i, j;
+        var pairs = [];
+
+        // The sum 1 + 2 + ... + n equals n * (n + 1) / 2
+        var sum = n * (n + 1) / 2;
+
+        for (i = 1; i <= n; ++i) {
+          for (j = i + 1; j <= n; ++j) {
+            if (i * j === sum - (i + j)) {
+              pairs.push([i, j]);
+            }
+          }
+        }
+
+        return pairs;
+      }
+    </script>
+  </body>
+</html>
+
