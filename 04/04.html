@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>4. String Combinations (aka substrings)</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="../common.css"/>
+    <link rel="stylesheet" href="04.css"/>
+  </head>
+  <body>
+    <input type="text" id="string" placeholder="String" autofocus/>
+    <span id="count"></span>
+    <div id="substrings"></div>
+
+    <script type="text/javascript">
+      $("#string").on("input", update);
+      $(document).ready(update);
+
+      function update() {
+        var string = $("#string").val();
+        var substrings = findSubstrings(string);
+
+        $("#substrings").html(substrings.join("<br/>"));
+        $("#count").text(substrings.length > 0 ? substrings.length : "");
+      }
+
+      function findSubstrings(string) {
+        var i, j;
+        var results = [];
+
+        for (i = 0; i < string.length; ++i) {
+          for (j = i + 1; j <= string.length; ++j) {
+            results.push(string.substring(i, j));
+          }
+        }
+
+        return results;
+      }
+    </script>
+  </body>
+</html>
+
