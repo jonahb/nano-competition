@@ -14,7 +14,7 @@
     <div id="tableParent"/>
 
     <script type="text/javascript">
-      var size = 0;
+      var size = null;
 
       /*
          Makes a size-by-size table and returns the HTML element
@@ -53,7 +53,7 @@
         var $tableParent = $("#tableParent");
         $tableParent.empty();
 
-        if (size > 0) {
+        if ((size !== null) && (size > 0)) {
           $tableParent.append(makeTable(size));
         }
       }
@@ -63,7 +63,7 @@
          Updates the size box with the current value of size
       */
       function updateSize() {
-        $("#size").val(size);
+        $("#size").val(size === null ? "" : size);
       }
 
 
@@ -75,7 +75,7 @@
       });
 
       $("#size").on("input", function(event) {
-        size = parseInt($("#size").val());
+        size = parseInt($("#size").val()) || null;
         updateTable();
       });
 
