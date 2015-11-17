@@ -9,9 +9,13 @@
   </head>
   <body>
     <input type="text" id="size" placeholder="Grid Size" autofocus/>
+    <a href="#" id="increaseSize">+</a>
+    <a href="#" id="decreaseSize">−</a>
     <div id="tableParent"/>
 
     <script type="text/javascript">
+      var size = 0;
+
       /*
          Makes a size-by-size table and returns the HTML element
       */
@@ -42,18 +46,49 @@
 
 
       /*
-         Event handlers
+         Updates the table to reflect the current value of size. If size is out
+         of bounds (< 1 or > 20), displays nothing.
       */
-      $("#size").on("input", function(event) {
+      function updateTable() {
         var $tableParent = $("#tableParent");
-        var size;
-
-        $tableParent.empty()
-        size = parseInt($("#size").val());
+        $tableParent.empty();
 
         if ((size > 0) && (size < 21)) {
           $tableParent.append(makeTable(size));
         }
+      }
+
+
+      /*
+         Updates the size box with the current value of size
+      */
+      function updateSize() {
+        $("#size").val(size);
+      }
+
+
+      /*
+         Event handlers
+      */
+      $(document).ready(function(event) {
+        updateTable();
+      });
+
+      $("#size").on("input", function(event) {
+        size = parseInt($("#size").val());
+        updateTable();
+      });
+
+      $("#increaseSize").click(function(event) {
+        size++;
+        updateTable();
+        updateSize();
+      });
+
+      $("#decreaseSize").click(function(event) {
+        size--;
+        updateTable();
+        updateSize();
       });
     </script>
   </body>

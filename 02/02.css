@@ -12,3 +12,12 @@ td.diagonal {
   margin-top: 1em;
 }
 
+a {
+  margin-left: 0.25em;
+}
+
+a:hover {
+  text-decoration: none;
+  color: green;
+}
+
